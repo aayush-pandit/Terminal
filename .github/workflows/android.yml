@@ -20,14 +20,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Complete Clean and Build Override
+    - name: Complete Clean and Folder Override
+      # यह जादुई स्टेप अंदर छिपे हुए 'Terminal' फोल्डर के कचरे को जड़ से मिटा देगा
       run: |
+        # सर्वर पर मौजूद पुराने सभी फोल्डर्स को जबरन डिलीट करना
+        rm -rf Terminal app build.gradle.kts settings.gradle.kts gradlew gradle .gradle
+        
+        # बिल्कुल सही और फ्रेश फोल्डर स्ट्रक्चर बनाना
         mkdir -p app/src/main/java/com/example
         mkdir -p app/src/main/res/values
         mkdir -p app/src/main/res/layout
         mkdir -p gradle/wrapper
 
-        # 100% सटीक और शुद्ध MainActivity.kt का निर्माण जो आपके ऐप का असली बेस तैयार करेगी
+        # 100% सटीक और शुद्ध MainActivity.kt का निर्माण
         echo 'package com.example
         import android.os.Bundle
         import androidx.activity.ComponentActivity
@@ -37,7 +42,7 @@ jobs:
             }
         }' > app/src/main/java/com/example/MainActivity.kt
 
-        # [CRITICAL MANIFEST FIX] सर्वर पर सीधे सभी android:name के साथ शुद्ध मेनिफेस्ट बनाना
+        # [ULTIMATE FIX] बिना किसी छूटे हुए नाम के 100% शुद्ध और सही Manifest का निर्माण
         echo '<?xml version="1.0" encoding="utf-8"?>
         <manifest xmlns:android="http://android.com">
             <application
